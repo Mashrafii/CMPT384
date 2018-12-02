@@ -54,9 +54,13 @@
                 var color;
         var maxvalue;
         var minvalue;
+		
+		//dictionary variables
 		var dictionary = {};
-		var rating_dictionary ={};
+		var rating_dictionary = {};
+		var reviews_dictionary = {};
         var location1= [];
+		
         var KeysA;
        
 		var dataset;
@@ -86,6 +90,8 @@
                 dataset.forEach(function(d){
 					//console.log(d)
                     d.price=+d.price;
+					d.overall_satisfaction=+d.overall_satisfaction;
+					d.reviews=+d.reviews;
                     d.bedrooms=+d.bedrooms;
                     d.latitude=+d.latitude;
                     d.longitude=+d.longitude;
@@ -102,9 +108,14 @@
                     }
 					
 					//creating rating dictionary
-					if(isNaN(parseFloat(d.Value))) return;
+					if(isNaN(parseFloat(d.overall_satisfaction))) return;
 					
 					rating_dictionary[String(d.borough)].push(d.overall_satisfaction)
+					
+					//creating reviews dictionary
+					
+					<!-- reviews_dictionary[String(d.borough)].push(d.reviews) -->
+					
 					
 				}
 				else{
@@ -120,6 +131,7 @@
                     }
 					
 					rating_dictionary[String(d.borough)].push(d.overall_satisfaction);
+					<!-- reviews_dictionary[String(d.borough)].push(d.reviews); -->
 				}
 				
 			});
@@ -129,14 +141,14 @@
                 dictionary[keys1[i]]=d3.mean(dictionary[keys1[i]]);
                 //console.log(dictionary[keys1[i]])
             }
-			//console.log(dictionary)
+			//console.log(rating_dictionary)
 
 			var i;
 			var keys2=Object.keys(rating_dictionary);
             for (i in keys2){							
                 rating_dictionary[keys2[i]]=d3.mean(rating_dictionary[keys2[i]]);
             }
-			//console.log(rating_dictionary)
+			console.log(rating_dictionary)
         };
 
 		
@@ -174,13 +186,13 @@
                 .on("mouseout",handleMouseOut)
 
 
-
-
             /////////////TEST////
 			//Mouse over event
 			
             function handleMouseOver(d, i) {  // Add interactivity
             // Specify where to put label of text
+			
+			//mouseover-text - Average Price
             svg.append("text").attr('id', "mouseover-text")
 			
             .attr('x',d3.select(this).attr('cx')-30) 
@@ -193,14 +205,21 @@
                         
                         <!-- return color(dictionary[d.borough]);    -->
                 <!-- }) -->
-			
 			.text(" Average Price:"+Math.round(dictionary[d.borough]))
 			
+			//mouseover2-text - Ratings
             svg.append("text").attr('id', "mouseover2-text")
 			
             .attr('x',d3.select(this).attr('cx')-30) 
             .attr('y',d3.select(this).attr('cy')-45) 
-			.text(" Average Rating:"+Math.round(rating_dictionary[d.borough]));
+			.text(" Average Rating:"+ d3.format(".1f")(rating_dictionary[d.borough]))
+			
+			//mouseover3-text - reviews
+            svg.append("text").attr('id', "mouseover3-text")
+			
+            .attr('x',d3.select(this).attr('cx')-30) 
+            .attr('y',d3.select(this).attr('cy')-60) 
+			.text(" Number of reviews:"+Math.round(reviews_dictionary[d.borough]));
           }
 
 
@@ -208,7 +227,8 @@
             // Use D3 to select element, change color back to normal
             // Select text by id and then remove
             d3.select("#mouseover-text").remove()  // Remove text location
-			d3.select("#mouseover2-text").remove(); 
+			d3.select("#mouseover2-text").remove()
+			d3.select("#mouseover3-text").remove(); 
           }
 		  
          console.log(location1)
