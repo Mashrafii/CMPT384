@@ -69,9 +69,7 @@
                 console.log(dataset)
                 maxvalue=Math.max.apply(null, Object.values(dictionary));
                 minvalue=Math.min.apply(null, Object.values(dictionary));
-                console.log(maxvalue)
-                console.log(minvalue)
-                console.log(location1);
+
                  color = d3.scaleQuantize()
                  //.range(["light blue","blue","pink","red"]);
                 .range(["grey","pink","red"]);
@@ -82,7 +80,7 @@
 				generateVisualization(); 
                
 			});	
-			//});	
+
             function contributionDictionary(){
                 dataset.forEach(function(d){
                     d.price=+d.price;
@@ -115,7 +113,6 @@
 				}
 				
 			});
-            console.log(location1);
             var i;
             var keys1=Object.keys(dictionary);
             for (i in keys1){
@@ -123,20 +120,16 @@
                 //console.log(dictionary[keys1[i]])
             }
         };
-        
-        
-        
-		
+
 		
 		function generateVisualization(){
 		
-            
-			
+		
 			//Create SVG element
 			//var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 			
 			//Draw circles 
-			svg.selectAll("circle").data(location1).enter().append("circle")
+			svg.selectAll("circle").data(location1).enter().append("circle")		//change .data(dataset) to plot each listings
 				.attr("cx",function(d,i){
 					
 					//return d.Longitude;
@@ -167,12 +160,23 @@
 
 
             /////////////TEST////
+			//Mouse over event
+			
             function handleMouseOver(d, i) {  // Add interactivity
             // Specify where to put label of text
             svg.append("text").attr('id', "mouseover-text")
+			
             .attr('x',d3.select(this).attr('cx')-30) 
             .attr('y',d3.select(this).attr('cy')-30) 
-            .attr("stroke","grey")
+            .attr("stroke",function(location1, i){			//change the stroke color according to borough color
+                    //console.log(d.borough);
+                    //if(d.borough in KeysA){
+                        //keysA.remove(d.borough)
+                        
+                        return color(dictionary[d.borough]);   
+                })
+			
+			
             .text(" averageprice:"+Math.round(dictionary[d.borough]));
             
           }
@@ -182,7 +186,8 @@
             // Select text by id and then remove
             d3.select("#mouseover-text").remove();  // Remove text location
           }
-             console.log(location1)
+		  
+         console.log(location1)
              svg.selectAll("text").data(location1).enter().append("text")
 				.attr("x",function(d,i){
 					return projection([d.longitude, d.latitude])[0];
@@ -194,10 +199,8 @@
 				.text(function(d,i){
                     if(color(dictionary[d.borough])=="grey"||color(dictionary[d.borough])=="red"||color(dictionary[d.borough])=="pink"){
 						return d.borough
-					}
-					// else{
-					// 	return;
-					// }
+					}    
+
 					
 				})
             
