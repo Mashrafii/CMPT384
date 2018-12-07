@@ -134,8 +134,8 @@
 					listings_dictionary[d.room_id].push(d.bedrooms);
 					listings_dictionary[d.room_id].push(d.accommodates);
 					listings_dictionary[d.room_id].push(d.reviews);
-					<!-- if(isNaN(parseFloat(d.overall_satisfaction))) return;	 -->
-					<!-- listings_dictionary[d.room_id].push(d.overall_satisfaction); -->
+					if(isNaN(parseFloat(d.overall_satisfaction))) return;	
+					listings_dictionary[d.room_id].push(d.overall_satisfaction);
 					listings_dictionary[d.room_id].push(d.neighborhood);
 					listings_dictionary[d.room_id].push(d.borough);
 					listings_dictionary[d.room_id].push(d.room_type);
@@ -149,11 +149,11 @@
 					listings_dictionary[d.room_id].push(d.bedrooms);				// 1
 					listings_dictionary[d.room_id].push(d.accommodates);			// 2
 					listings_dictionary[d.room_id].push(d.reviews);					// 3
-					<!-- if(isNaN(parseFloat(d.overall_satisfaction))) return;	 -->
-					<!-- listings_dictionary[d.room_id].push(d.overall_satisfaction); -->
-					listings_dictionary[d.room_id].push(d.neighborhood);			// 4
-					listings_dictionary[d.room_id].push(d.borough);					// 5
-					listings_dictionary[d.room_id].push(d.room_type);				// 6
+					if(isNaN(parseFloat(d.overall_satisfaction))) return;	
+					listings_dictionary[d.room_id].push(d.overall_satisfaction);	//4
+					listings_dictionary[d.room_id].push(d.neighborhood);			// 5
+					listings_dictionary[d.room_id].push(d.borough);					// 6
+					listings_dictionary[d.room_id].push(d.room_type);				// 7
 					
 				
 				}
@@ -333,7 +333,7 @@
 			.attr("font-size","5px")
             .attr('x',d3.select(this).attr('cx')-10) 
             .attr('y',d3.select(this).attr('cy')-5) 
-		    .text(" Price: "+ listings_dictionary[d.room_id][0])
+		    .text(" Price: $"+ listings_dictionary[d.room_id][0])
 			
 			//mouseover1-text - Number of Bedrooms
             svg.append("text").attr('id', "mouseover1-text")
@@ -357,26 +357,33 @@
             .attr('y',d3.select(this).attr('cy')-20) 
 		    .text(" Reviews: "+ listings_dictionary[d.room_id][3])
 			
-			//mouseover4-text - Neighborhood
+			//mouseover4-text - Overall_satisfaction
             svg.append("text").attr('id', "mouseover4-text")
 			.attr("font-size","5px")
             .attr('x',d3.select(this).attr('cx')-10) 
             .attr('y',d3.select(this).attr('cy')-25) 
-		    .text(" Neighborhood: "+ listings_dictionary[d.room_id][4])
-
-			//mouseover5-text - Borough
+		    .text(" Overall_satisfaction: "+ listings_dictionary[d.room_id][4])
+			
+			//mouseover5-text - Neighborhood
             svg.append("text").attr('id', "mouseover5-text")
 			.attr("font-size","5px")
             .attr('x',d3.select(this).attr('cx')-10) 
             .attr('y',d3.select(this).attr('cy')-30) 
-		    .text(" Borough: "+ listings_dictionary[d.room_id][5])
-			
-			//mouseover6-text - Room_type
+		    .text(" Neighborhood: "+ listings_dictionary[d.room_id][5])
+
+			//mouseover6-text - Borough
             svg.append("text").attr('id', "mouseover6-text")
 			.attr("font-size","5px")
             .attr('x',d3.select(this).attr('cx')-10) 
             .attr('y',d3.select(this).attr('cy')-35) 
-		    .text(" Room_type: "+ listings_dictionary[d.room_id][6])
+		    .text(" Borough: "+ listings_dictionary[d.room_id][6])
+			
+			//mouseover7-text - Room_type
+            svg.append("text").attr('id', "mouseover7-text")
+			.attr("font-size","5px")
+            .attr('x',d3.select(this).attr('cx')-10) 
+            .attr('y',d3.select(this).attr('cy')-40) 
+		    .text(" Room_type: "+ listings_dictionary[d.room_id][7])
 			
           }
 		  
@@ -393,6 +400,7 @@
 			d3.select("#mouseover4-text").remove()
 			d3.select("#mouseover5-text").remove()
 			d3.select("#mouseover6-text").remove()
+			d3.select("#mouseover7-text").remove()
 
           }
 		  
